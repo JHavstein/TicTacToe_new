@@ -99,16 +99,15 @@ public class TTTBoard {
         int seq;
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; i < this.size; j++) {
+
                 Coordinate tmp = new XYCoordinate(i, j); // new coordinate for each position on board
 
-                for (int r = -1; r <= 1; r++) {
-                    for (int s = -1; s <= 1; s++) {
-                        seq = checkSequence(tmp, r, s);
+                for (int r = 0; r <= 2; r++) {
+                    for (int s = 0; s <= 2; s++) {
+                        seq = checkSequence(tmp, r-1, s-1);
                         if (seq > 0) { // checks all 8 possible directions for a sequence
                             return seq; // player who has won
                         }
-                         else {;}
-
                     }
                 }
             }
@@ -121,7 +120,7 @@ public class TTTBoard {
      * internal helper function checking one row, column, or diagonal
      */
     public int checkSequence(Coordinate start, int dx, int dy) { // could be made shorter somehow
-        int temp = this.board[start.getX()][start.getY()];// start coordinate (player)
+        //int temp = this.board[start.getX()][start.getY()];// start coordinate (player)
         int x = start.getX();
         int y = start.getY();
         for (int i = 0; i < 2; i++) {
@@ -133,12 +132,11 @@ public class TTTBoard {
             else if (x <= 0 || y <= 0){
                 return 0;
             }
-            else if (this.board[x][y] != temp) {
+            else if (this.board[x][y] != this.board[start.getX()][start.getY()]) {
                 return 0;
             }
-            else{ }; 
         }
-        return temp;
+        return this.board[start.getX()][start.getY()];
     }  // ends checkSqeuence()
 
     /**
