@@ -87,7 +87,7 @@ public class AppUI extends AppCompatActivity implements UserInterface {
                             for (PosButton button : buttons) {
                                 button.setText(game.getContent(button.pos));
                             }
-                            game.checkResult();
+                            game.checkResult(); // usable??
                         }
                     }
                 });
