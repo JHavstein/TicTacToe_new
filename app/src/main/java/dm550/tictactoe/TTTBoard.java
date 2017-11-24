@@ -96,16 +96,19 @@ public class TTTBoard {
         // we are allowed to use a coordinate in the check for a win --> then we could
         // significantly limit the number of checks nessecary to determine whether a player has
         // won or not as long as the check is run each time a new move has been made.
-        for (int i = 0; i <= this.size; i++) {
-            for (int j = 0; i <= this.size; j++) {
-
+        int seq;
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; i < this.size; j++) {
                 Coordinate tmp = new XYCoordinate(i, j); // new coordinate for each position on board
 
                 for (int r = -1; r <= 1; r++) {
                     for (int s = -1; s <= 1; s++) {
-                        if (checkSequence(tmp, r, s) != 0) { // checks all 8 possible directions for a sequence
-                            return checkSequence(tmp, r, s); // player who has won
+                        seq = checkSequence(tmp, r, s);
+                        if (seq > 0) { // checks all 8 possible directions for a sequence
+                            return seq; // player who has won
                         }
+                         else {;}
+
                     }
                 }
             }
@@ -122,11 +125,18 @@ public class TTTBoard {
         int x = start.getX();
         int y = start.getY();
         for (int i = 0; i < 2; i++) {
-            x = x + dx;
-            y = y + dy;
-            if (this.board[x][y] != temp) {
+                x = x + dx;
+                y = y + dy;
+            if (x >= this.size-1 || y >= this.size-1){
+             return 0;
+            }
+            else if (x <= 0 || y <= 0){
                 return 0;
             }
+            else if (this.board[x][y] != temp) {
+                return 0;
+            }
+            else{ }; 
         }
         return temp;
     }  // ends checkSqeuence()
