@@ -26,25 +26,21 @@ public class XYCoordinate implements Coordinate {
 
     @Override
     public boolean checkBoundaries(int xSize, int ySize) {
-        if (this.getX() >= xSize){ // x-coordinate is > xSize-1
-            return false;
+        if (this.x <= xSize && this.y <= ySize){ // x-coordinate is > xSize-1
+            return true;
         }
-        else if (this.getY() >= ySize){ // y-coordinate is > xSize-1
-            return false;
-        }
-        else if (this.getX() < 0 || this.getY() < 0){ // either x or y is negative
-            return false;
+        else if (this.x < 0 || this.y < 0){ // either x or y is negative
+            return false; // input error
         }
         else {
-            return true;
+            return false;
         }
     }
 
     @Override
     public Coordinate shift(int dx, int dy) {
-        int newX = this.getX() + dx; // makes new x from existing
-        int newY = this.getY() + dy; // makes new y from existing
-        return Coordinate(newX, newY); // returns the new coordinates as class isntances of
+        return new XYCoordinate(this.x+dx,this.y+dy); // makes new x from existing
+        // returns the new coordinates as class isntances of
         // XYCoordinate (the return type was originally 'Coordinate' but coordinate is not a class
         // - it's an interface? Error from Peter? Misunderstanding from me?
     }

@@ -32,7 +32,7 @@ public class TTTBoard {
     }
 
     /** checks whether the board is free at the given position */
-    public boolean isFree(XYCoordinate c) {
+    public boolean isFree(Coordinate c) {
         if (this.board[c.getX()][c.getY()] == 0){
             return true;
         }
@@ -42,7 +42,7 @@ public class TTTBoard {
     }
 
     /** returns the players that made a move on (x,y) or 0 if the positon is free */
-    public int getPlayer(XYCoordinate c) {
+    public int getPlayer(Coordinate c) {
         if (isFree(c) == true){
             return 0;
         }
@@ -55,18 +55,13 @@ public class TTTBoard {
      * checks that the given positions is on the board
      * checks that the player number is valid
      */
-    public void addMove(XYCoordinate c, int player, int numPlayers) {
-        if (c.checkBoundaries(this.size, this.size) == false){ // coordinate is outside board
-            throw new IllegalArgumentException();
+    public void addMove(Coordinate c, int player, int numPlayers) {
+        if (c.checkBoundaries(this.size, this.size) == true && player <= numPlayers){ // coordinate is outside board
+            this.board[c.getX()][c.getY()]=player;
         }
-        else if (player > numPlayers){
-            throw new IllegalArgumentException(); // player number is invaled
-        }
-        else if (isFree(c) == false){
-            ; // how should it be handles if there is a player at given coordinate?
-        }
+
         else{
-            this.board[c.getX()][c.getY()] = player; // player added to coordinate
+            throw new IllegalArgumentException("Error");
         }
     }
 
@@ -77,9 +72,6 @@ public class TTTBoard {
                 if (this.board[i][j] == 0){
                     return false; // if board[i][j]==0, then the board is not full
                 }
-                else{
-                    ; // pass
-                }
             }
         }
         return true; // if no 0's were encountered while traversing the board array
@@ -88,59 +80,48 @@ public class TTTBoard {
     /** returns 0 if no player has won (yet)
      * otherwise returns the number of the player that has three in a row
      */
-    public int checkWinning() {
-        // TODO
-return -1
+    public int checkWinning(Coordinate c) { // added parameter
+        for (int i = -1; i<=1; i++){
+            for (int j = -1; j<=1; j++){
+                if (checkSequence(c, i, j) != 0){
+                    return checkSequence(c,i,j); // returns number of player who has won
+                }
+            }
+        }
+        Coordinate newCoord1 = new XYCoordinate(c.getX()-1, c.getY()-1);
+        Coordinate newCoord2 = new XYCoordinate(c.getX(), c.getY()-1);
+        Coordinate newCoord3 = new XYCoordinate(c.getX()+1, c.getY()-1);
+        Coordinate newCoord4 = new XYCoordinate(c.getX()+1, c.getY());
+
+        if (checkSequence(newCoord1, 1, 1) != 0) {
+            return checkSequence(newCoord1, 1, 1);
+        }
+        else if(checkSequence(newCoord2, 0, 1) != 0){
+            return checkSequence(newCoord2, 0, 1);
+        }
+        else if (checkSequence(newCoord3, -1, 1) != 0){
+            return checkSequence(newCoord3, -1, 1);
+        }
+        else if (checkSequence(newCoord4, -1, 0) != 0){
+            return checkSequence(newCoord4, -1, 0);
+        }
+    return 0;
     }
 
 
     /** internal helper function checking one row, column, or diagonal */
-    public int checkSequence(XYCoordinate start, int dx, int dy) { // could be made shorter somehow
-        int i;
-        int temp = this.board[start.getX()][start.getY()];// start coordinate
-        if (dx == 1 && dy == 0){
-            for (i = 0; i <= 2; i++){
-                if (this.board[start.getX()+i][start.getY()] != temp) {
-                    return 0;
-                }
-                 else{
-                        return temp; // player at start position has three in a row
-                    }
-                }
-            }
-        else if (dx == 0 && dy == 1){
-            for(i = 0; i <= 2; i++){
-                if (this.board[start.getX()][start.getY()+i] != temp){
-                    return 0;
-                }
-                else{
-                    return temp; // player at start position has three in a column
-                }
+    public int checkSequence(Coordinate start, int dx, int dy) { // could be made shorter somehow
+        int temp = this.board[start.getX()][start.getY()];// start coordinate (player)
+        int x=start.getX();
+        int y=start.getY();
+        for (int i = 0; i < 2; i++) {
+            x = x+dx;
+            y = y+dy;
+            if (this.board[x][y] != temp) {
+                return 0;
             }
         }
-        else if (dx == 1 && dy == 1) {
-            for (i = 0; i <= 2; i++) {
-                if (this.board[start.getX() + i][start.getY() + i] != temp) {
-                    return 0;
-                } else {
-                    return temp; // player has three in a row in a diagonal towards the right
-                }
-            }
-        }
-        else if (dx == 1 && dy == -1){
-            for (i = 0; i <= 2; i++){
-                if (this.board[start.getX()][start.getY()] != temp){
-                    return 0;
-                }
-                else{
-                    return temp; // player has three in a row in a diagonal towards the left
-                }
-            }
-        }
-        else {
-            return 0; // if no sequence of three in a row
-        }
-        return -1; // if error - conditional never entered
+        return temp;
     }  // ends checkSqeuence()
 
     /** getter for size of the board */
