@@ -99,13 +99,11 @@ public class TTTBoard {
         int seq;
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; i < this.size; j++) {
-
-                Coordinate tmp = new XYCoordinate(i, j); // new coordinate for each position on board
-
+                Coordinate tmp = new XYCoordinate(j, i); // new coordinate for each position on board
                 for (int r = 0; r <= 2; r++) {
                     for (int s = 0; s <= 2; s++) {
                         seq = checkSequence(tmp, r-1, s-1);
-                        if (seq > 0) { // checks all 8 possible directions for a sequence
+                        if (seq != 0) { // checks all 8 possible directions for a sequence
                             return seq; // player who has won
                         }
                     }
@@ -119,7 +117,7 @@ public class TTTBoard {
     /**
      * internal helper function checking one row, column, or diagonal
      */
-    public int checkSequence(Coordinate start, int dx, int dy) { // could be made shorter somehow
+    public int checkSequence(Coordinate start, int dx, int dy) { // checks only specific direction with given dx dy
         //int temp = this.board[start.getX()][start.getY()];// start coordinate (player)
         int x = start.getX();
         int y = start.getY();
@@ -159,31 +157,6 @@ public class TTTBoard {
             result += "\n";
         }
         return result;
-    }
-
-    public int checkWinningAlternative(Coordinate c) { // added parameter
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (checkSequence(c, i, j) != 0) {
-                    return checkSequence(c, i, j); // returns number of player who has won
-                }
-            }
-        }
-        Coordinate newCoord1 = new XYCoordinate(c.getX() - 1, c.getY() - 1);
-        Coordinate newCoord2 = new XYCoordinate(c.getX(), c.getY() - 1);
-        Coordinate newCoord3 = new XYCoordinate(c.getX() + 1, c.getY() - 1);
-        Coordinate newCoord4 = new XYCoordinate(c.getX() + 1, c.getY());
-
-        if (checkSequence(newCoord1, 1, 1) != 0) {
-            return checkSequence(newCoord1, 1, 1);
-        } else if (checkSequence(newCoord2, 0, 1) != 0) {
-            return checkSequence(newCoord2, 0, 1);
-        } else if (checkSequence(newCoord3, -1, 1) != 0) {
-            return checkSequence(newCoord3, -1, 1);
-        } else if (checkSequence(newCoord4, -1, 0) != 0) {
-            return checkSequence(newCoord4, -1, 0);
-        }
-        return 0;
     }
 
 } // ends class
