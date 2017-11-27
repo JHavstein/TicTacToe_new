@@ -104,7 +104,6 @@ public class TTTBoard {
                 if (checkSequence(start, i-1, j-1) > 0){
                     return this.board[start.getX()][start.getY()];
                 }
-                else{;}
             }
         }
         return 0;
@@ -121,11 +120,12 @@ public class TTTBoard {
         int y1 = start.getY()+dy;
         int x2 = start.getX()+dx+dx;
         int y2=start.getY()+dy+dy;
-        if (x0 > this.size-1 || y0 > this.size-1 || x1 > this.size-1 ||
+
+        if (x0 > this.size-1 || y0 > this.size-1 || x1 > this.size-1 || // if any points are outside board
                 y1 > this.size-1 || x2 > this.size-1 || y2 > this.size-1){
             return 0;
         }
-        else if (this.board[x0][y0] == 0 || this.board[x1][y1] == 0 ||
+        else if (this.board[x0][y0] == 0 || this.board[x1][y1] == 0 || // if any points are empty
                 this.board[x2][y2] == 0){
             return 0;
         }

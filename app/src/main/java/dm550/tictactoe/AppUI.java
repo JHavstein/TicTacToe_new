@@ -88,8 +88,8 @@ public class AppUI extends AppCompatActivity implements UserInterface {
                                 button.setText(game.getContent(button.pos));
 
                             }
-                            game.checkResult(pos);
                         }
+                        game.checkResult(pos);
                     }
                 });
                 row.addView(b);
