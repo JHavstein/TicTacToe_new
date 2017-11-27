@@ -84,10 +84,11 @@ public class AppUI extends AppCompatActivity implements UserInterface {
                         Coordinate pos = ((PosButton) view).pos;
                         if (game.isFree(pos)) {
                             game.addMove(pos);
+                            game.checkResult(pos);
                             for (PosButton button : buttons) {
                                 button.setText(game.getContent(button.pos));
+
                             }
-                            game.checkResult();
                         }
                     }
                 });

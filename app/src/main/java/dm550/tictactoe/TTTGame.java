@@ -60,8 +60,8 @@ public class TTTGame implements Game {
     }
 
     @Override
-    public void checkResult() {
-        int winner = this.board.checkWinning();
+    public void checkResult(Coordinate pos) {
+        int winner = this.board.checkWinning(pos);
         if (winner > 0) {
             this.ui.showResult("Player "+winner+" wins!");
         }

@@ -1,6 +1,8 @@
 package dm550.tictactoe;
 
 /** represents a tic tac toe board of a given size */
+import java.lang.Math;
+
 public class TTTBoard {
 
     /**
@@ -90,27 +92,25 @@ public class TTTBoard {
      * returns 0 if no player has won (yet)
      * otherwise returns the number of the player that has three in a row
      */
-    public int checkWinning() {
+
+    public int checkWinning(Coordinate start) {
         // manuelly runs through all possible directions from alle possible
         // coordinates. checkWinningAlternative() gives a more sophisticated solution if
         // we are allowed to use a coordinate in the check for a win --> then we could
         // significantly limit the number of checks nessecary to determine whether a player has
         // won or not as long as the check is run each time a new move has been made.
+        int x= start.getX();
+        int y= start.getY();
         int seq;
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; i < this.size; j++) {
-                Coordinate tmp = new XYCoordinate(j, i); // new coordinate for each position on board
-                for (int r = 0; r <= 2; r++) {
-                    for (int s = 0; s <= 2; s++) {
-                        seq = checkSequence(tmp, r-1, s-1);
-                        if (seq != 0) { // checks all 8 possible directions for a sequence
-                            return seq; // player who has won
-                        }
-                    }
+        for (int i=0; i<=2; i++){
+            for (int j=0; j<=2; j++){
+                if (checkSequence(start, i-1, j-1) != 0){
+                    return this.board[start.getX()][start.getY()];
                 }
+                else{;}
             }
         }
-        return 0; // no player has won
+        return 0;
     } // ends checkWinning
 
 
@@ -118,23 +118,23 @@ public class TTTBoard {
      * internal helper function checking one row, column, or diagonal
      */
     public int checkSequence(Coordinate start, int dx, int dy) { // checks only specific direction with given dx dy
-        //int temp = this.board[start.getX()][start.getY()];// start coordinate (player)
-        int x = start.getX();
-        int y = start.getY();
-        for (int i = 0; i < 2; i++) {
-                x = x + dx;
-                y = y + dy;
-            if (x >= this.size-1 || y >= this.size-1){
-             return 0;
-            }
-            else if (x <= 0 || y <= 0){
-                return 0;
-            }
-            else if (this.board[x][y] != this.board[start.getX()][start.getY()]) {
-                return 0;
-            }
+        int x0 = start.getX()+0;
+        int y0=start.getY()+0;
+        int x1 = start.getX()+dx;
+        int y1=start.getY()+dy;
+        int x2 = start.getX()+dx+dx;
+        int y2=start.getY()+dy+dy;
+        if (this.board[x0][y0] == 0 || this.board[x1][y1] == 0 ||
+                this.board[x2][y2] == 0){
+            return 0;
         }
-        return this.board[start.getX()][start.getY()];
+        if (this.board[x0][y0] == this.board[x1][y1] &&
+                this.board[x0][y0]==this.board[x2][y2]){ // three in a row in the direction dx/dy
+            return this.board[x0][y0];
+        }
+        else{
+            return 0;
+        }
     }  // ends checkSqeuence()
 
     /**
