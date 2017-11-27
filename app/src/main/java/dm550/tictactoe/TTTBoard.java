@@ -99,12 +99,9 @@ public class TTTBoard {
         // we are allowed to use a coordinate in the check for a win --> then we could
         // significantly limit the number of checks nessecary to determine whether a player has
         // won or not as long as the check is run each time a new move has been made.
-        int x= start.getX();
-        int y= start.getY();
-        int seq;
         for (int i=0; i<=2; i++){
             for (int j=0; j<=2; j++){
-                if (checkSequence(start, i-1, j-1) != 0){
+                if (checkSequence(start, i-1, j-1) > 0){
                     return this.board[start.getX()][start.getY()];
                 }
                 else{;}
@@ -118,17 +115,21 @@ public class TTTBoard {
      * internal helper function checking one row, column, or diagonal
      */
     public int checkSequence(Coordinate start, int dx, int dy) { // checks only specific direction with given dx dy
-        int x0 = start.getX()+0;
-        int y0=start.getY()+0;
+        int x0 = start.getX();
+        int y0 = start.getY();
         int x1 = start.getX()+dx;
-        int y1=start.getY()+dy;
+        int y1 = start.getY()+dy;
         int x2 = start.getX()+dx+dx;
         int y2=start.getY()+dy+dy;
-        if (this.board[x0][y0] == 0 || this.board[x1][y1] == 0 ||
+        if (x0 > this.size-1 || y0 > this.size-1 || x1 > this.size-1 ||
+                y1 > this.size-1 || x2 > this.size-1 || y2 > this.size-1){
+            return 0;
+        }
+        else if (this.board[x0][y0] == 0 || this.board[x1][y1] == 0 ||
                 this.board[x2][y2] == 0){
             return 0;
         }
-        if (this.board[x0][y0] == this.board[x1][y1] &&
+        else if (this.board[x0][y0] == this.board[x1][y1] &&
                 this.board[x0][y0]==this.board[x2][y2]){ // three in a row in the direction dx/dy
             return this.board[x0][y0];
         }
