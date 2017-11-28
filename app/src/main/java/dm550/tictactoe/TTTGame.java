@@ -31,7 +31,7 @@ public class TTTGame implements Game {
 
     @Override
     public void addMove(Coordinate pos) {
-        this.board.addMove(pos, this.currentPlayer, this.numPlayers);
+        this.board.addMove(pos, this.currentPlayer);
         if (this.currentPlayer == this.numPlayers) {
             this.currentPlayer = 1;
         } else {
@@ -60,8 +60,8 @@ public class TTTGame implements Game {
     }
 
     @Override
-    public void checkResult(Coordinate pos) {
-        int winner = this.board.checkWinning(pos);
+    public void checkResult() {
+        int winner = this.board.checkWinning();
         if (winner > 0) {
             this.ui.showResult("Player "+winner+" wins!");
         }

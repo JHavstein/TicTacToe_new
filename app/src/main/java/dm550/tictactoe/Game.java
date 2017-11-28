@@ -20,7 +20,7 @@ public interface Game {
     void addMove(Coordinate pos);
 
     /** check if some player wins or it is a draw */
-    void checkResult(Coordinate pos);
+    void checkResult();
 
     /** returns true, if and only if, the position is free */
     boolean isFree(Coordinate pos);

@@ -89,7 +89,7 @@ public class AppUI extends AppCompatActivity implements UserInterface {
 
                             }
                         }
-                        game.checkResult(pos);
+                        game.checkResult();
                     }
                 });
                 row.addView(b);
