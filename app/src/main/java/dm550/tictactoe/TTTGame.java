@@ -71,9 +71,6 @@ public class TTTGame implements Game {
         if (winner > 0) {
             this.ui.showResult("Player "+winner+" wins!");
         }
-        if (numPlayers==1){
-
-        }
         else if (this.board.checkFull()) {
             this.ui.showResult("This is a DRAW!");
         }

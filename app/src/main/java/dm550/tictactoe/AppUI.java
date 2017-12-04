@@ -47,7 +47,6 @@ public class AppUI extends AppCompatActivity implements UserInterface {
         this.setContentView(sv);
 
     }
-
     @Override
     public void startGame(final Game game) {
         if (game.numberOfPlayers() > 1) {
@@ -147,17 +146,19 @@ public class AppUI extends AppCompatActivity implements UserInterface {
                                     button.setText(game.getContent(button.pos));
                                 }
                             }
-                            game.checkResult();
-                            Coordinate pos2 = new TTTAI(game.getBoard());
-                            if (game.isFree(pos2) && !game.isFull()) {
-                                game.addMove2(pos2, 2);
-                                for (PosButton button : buttons) {
-                                    button.setText(game.getContent(button.pos));
+                            game.checkResult(); // problem with checkFull because AI makes the board overfilled if draw. An if-conditional somewhere here should solve that.
+                            if (!game.isFull()) {
+                                Coordinate pos2 = new TTTAI(game.getBoard());
+                                if (game.isFree(pos2)) {
+                                    game.addMove2(pos2, 2);
+                                    for (PosButton button : buttons) {
+                                        button.setText(game.getContent(button.pos));
+                                    }
                                 }
                             }
                             game.checkResult(); // problem with checkFull because AI makes the board overfilled if draw. An if-conditional somewhere here should solve that.
-
                         }
+
                     });
                     row.addView(b);
                 }
