@@ -27,7 +27,7 @@ public class TTTBoard {
 
     /** constructor for creating an empty board for a given number of players */
     public TTTBoard(int numPlayers) {
-        this.size = numPlayers+1;
+        this.size =  (numPlayers == 1) ? 3 : numPlayers+1; //
         this.board = new int[this.getSize()][this.getSize()];
     }
 
@@ -48,7 +48,7 @@ public class TTTBoard {
      * checks that the player number is valid
      */
     public void addMove(Coordinate c, int player) {
-        if (c.checkBoundaries(this.size,this.size) == true && player > 0 && player <= this.size-1) {
+        if (c.checkBoundaries(this.size,this.size) && player > 0 && player <= this.size-1) {
             this.board[c.getX()][c.getY()] = player;
         }
         else {
@@ -127,6 +127,10 @@ public class TTTBoard {
             result += "\n";
         }
         return result;
+    }
+
+    public int[][] getBoard(){
+        return this.board;
     }
 
 }

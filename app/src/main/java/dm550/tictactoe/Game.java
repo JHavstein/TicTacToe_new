@@ -19,6 +19,9 @@ public interface Game {
     /** record a move on a given position */
     void addMove(Coordinate pos);
 
+    /** Used when playing against the AI */
+    void addMove2(Coordinate pos, int i);
+
     /** check if some player wins or it is a draw */
     void checkResult();
 
@@ -27,5 +30,11 @@ public interface Game {
     
     /** provide a user interface to the game */
     void setUserInterface(UserInterface ui);
-    
+
+    int[][] getBoard();
+
+    int numberOfPlayers();
+
+    boolean isFull();
+
 }

@@ -40,6 +40,12 @@ public class TTTGame implements Game {
     }
 
     @Override
+    public void addMove2(Coordinate pos, int player) {
+        this.board.addMove(pos, player);
+    }
+
+
+    @Override
     public String getContent(Coordinate pos) {
         String result = "";
         int player = this.board.getPlayer(pos);
@@ -65,6 +71,9 @@ public class TTTGame implements Game {
         if (winner > 0) {
             this.ui.showResult("Player "+winner+" wins!");
         }
+        if (numPlayers==1){
+
+        }
         else if (this.board.checkFull()) {
             this.ui.showResult("This is a DRAW!");
         }
@@ -83,6 +92,20 @@ public class TTTGame implements Game {
     
     public String toString() {
         return "Board before Player "+this.currentPlayer+" of "+this.numPlayers+"'s turn:\n"+this.board.toString();
+    }
+
+    @Override
+    public int[][] getBoard(){
+        return this.board.getBoard();
+    }
+
+    @Override
+    public int numberOfPlayers(){
+        return this.numPlayers;
+    }
+
+    public boolean isFull(){
+        return this.board.checkFull();
     }
 
 }

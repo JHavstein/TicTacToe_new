@@ -14,6 +14,9 @@ public class XYCoordinate implements Coordinate {
         this.y = y;
     }
 
+    public XYCoordinate() {
+    }
+
     @Override
     public int getX() {
         return this.x;
