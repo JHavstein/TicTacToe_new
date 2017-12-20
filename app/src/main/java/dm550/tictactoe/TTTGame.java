@@ -44,7 +44,6 @@ public class TTTGame implements Game {
         this.board.addMove(pos, player);
     }
 
-
     @Override
     public String getContent(Coordinate pos) {
         String result = "";

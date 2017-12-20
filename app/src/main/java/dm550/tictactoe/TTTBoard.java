@@ -33,7 +33,8 @@ public class TTTBoard {
 
     /** checks whether the board is free at the given position */
     public boolean isFree(Coordinate c) {
-        return this.board[c.getX()][c.getY()] == 0;
+        //return this.board[c.getX()][c.getY()] == 0;
+        return getPlayer(c) == 0;
         //this is added
     }
 
@@ -48,7 +49,7 @@ public class TTTBoard {
      * checks that the player number is valid
      */
     public void addMove(Coordinate c, int player) {
-        if (c.checkBoundaries(this.size,this.size) && player > 0 && player <= this.size-1) {
+        if (c.checkBoundaries(this.size,this.size) && player > 0 /*&& player <= this.size-1*/) { // udkommenteret condition er redundant pga. checkBounderies
             this.board[c.getX()][c.getY()] = player;
         }
         else {

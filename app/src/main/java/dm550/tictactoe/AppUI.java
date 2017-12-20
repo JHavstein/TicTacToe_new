@@ -24,13 +24,13 @@ public class AppUI extends AppCompatActivity implements UserInterface {
 
     @Override
     public void onBackPressed() {
-        LinearLayout layout = new LinearLayout(this);
+        final LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         TextView tv = new TextView(this);
         tv.setText("Please select the number of players!");
         layout.addView(tv);
         final NumberPicker np = new NumberPicker(this);
-        np.setMinValue(1);
+        np.setMinValue(2);
         np.setMaxValue(6);
         layout.addView(np);
         Button b = new AppCompatButton(this);
@@ -42,14 +42,103 @@ public class AppUI extends AppCompatActivity implements UserInterface {
             }
         });
         layout.addView(b);
+        TextView tv2 = new TextView(this);
+        tv2.setText("Or play against an AI");
+        layout.addView(tv2);
+        Button b2 = new AppCompatButton(this);
+        b2.setText("AI starts");
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppUI.this.startGame(new TTTGame(0));
+            }
+        });
+        layout.addView(b2);
+        Button b3 = new AppCompatButton(this);
+        b3.setText("You start");
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppUI.this.startGame(new TTTGame(1));
+            }
+        });
+        layout.addView(b3);
         ScrollView2D sv = new ScrollView2D(this);
         sv.setContent(layout);
         this.setContentView(sv);
-
     }
     @Override
     public void startGame(final Game game) {
-        if (game.numberOfPlayers() > 1) {
+        if (game.numberOfPlayers() == 0) {
+            game.setUserInterface(this);
+            class PosButton extends AppCompatButton {
+                private final Coordinate pos;
+
+                public PosButton(Coordinate pos) {
+                    super(AppUI.this);
+                    this.pos = pos;
+                }
+
+                @Override
+                public void onMeasure(int wSpec, int hSpec) {
+                    super.onMeasure(wSpec, hSpec);
+                    final int w = getMeasuredWidth();
+                    setMeasuredDimension(w, w);
+                }
+            }
+            final List<PosButton> buttons = new ArrayList<PosButton>();
+            AppUI.this.setTitle(game.getTitle());
+            TableLayout layout = new TableLayout(AppUI.this);
+            final int xSize = game.getHorizontalSize();
+            final int ySize = game.getVerticalSize();
+            for (int i = 0; i < ySize; i++) {
+                layout.setColumnStretchable(i, true);
+            }
+            for (int i = 0; i < ySize; i++) {
+                TableRow row = new TableRow(AppUI.this);
+                for (int j = 0; j < xSize; j++) {
+                    Coordinate pos = new XYCoordinate(j, i);
+                    if (j == 1 && i == 1) {
+                        PosButton s = new PosButton(pos);
+                        buttons.add(s);
+                        s.setText("2");
+                        row.addView(s);
+                    }
+                    else {
+                        PosButton b = new PosButton(pos);
+                        buttons.add(b);
+                        b.setText(" ");
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Coordinate pos = ((PosButton) view).pos;
+                                if (game.isFree(pos)) {
+                                    game.addMove2(pos, 1);
+                                    for (PosButton button : buttons) {
+                                        button.setText(game.getContent(button.pos));
+                                    }
+                                }
+                                game.checkResult();
+                                if (!game.isFull()) {
+                                    Coordinate pos2 = new TTTAI(game.getBoard());
+                                    game.addMove2(pos2, 2);
+                                    for (PosButton button : buttons) {
+                                        button.setText(game.getContent(button.pos));
+                                    }
+                                }
+                                game.checkResult();
+                            }
+                        });
+                        row.addView(b);
+                    }
+                }
+                layout.addView(row);
+            }
+            ScrollView2D sv = new ScrollView2D(this);
+            sv.setContent(layout);
+            setContentView(sv);
+        }
+        else if (game.numberOfPlayers() == 1) {
             game.setUserInterface(this);
             class PosButton extends AppCompatButton {
                 private final Coordinate pos;
@@ -82,8 +171,67 @@ public class AppUI extends AppCompatActivity implements UserInterface {
                     buttons.add(b);
                     b.setText(" ");
                     b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Coordinate pos = ((PosButton) view).pos;
+                            if (game.isFree(pos)) {
+                                game.addMove2(pos, 1);
+                                for (PosButton button : buttons) {
+                                    button.setText(game.getContent(button.pos));
+                                }
+                            }
+                            game.checkResult();
+                            if (!game.isFull()) {
+                                Coordinate pos2 = new TTTAI(game.getBoard());
+                                game.addMove2(pos2, 2);
+                                for (PosButton button : buttons) {
+                                    button.setText(game.getContent(button.pos));
+                                }
+                            }
+                            game.checkResult();
+                        }
+                    });
+                    row.addView(b);
+                }
+                layout.addView(row);
+            }
+            ScrollView2D sv = new ScrollView2D(this);
+            sv.setContent(layout);
+            setContentView(sv);
+        }
+        else{
+            game.setUserInterface(this);
+            class PosButton extends AppCompatButton {
+                private final Coordinate pos;
 
+                public PosButton(Coordinate pos) {
+                    super(AppUI.this);
+                    this.pos = pos;
+                }
 
+                @Override
+                public void onMeasure(int wSpec, int hSpec) {
+                    super.onMeasure(wSpec, hSpec);
+                    final int w = getMeasuredWidth();
+                    setMeasuredDimension(w, w);
+                }
+            }
+            final List<PosButton> buttons = new ArrayList<PosButton>();
+            AppUI.this.setTitle(game.getTitle());
+            TableLayout layout = new TableLayout(AppUI.this);
+            final int xSize = game.getHorizontalSize();
+            final int ySize = game.getVerticalSize();
+            for (int i = 0; i < ySize; i++) {
+                layout.setColumnStretchable(i, true);
+            }
+            for (int i = 0; i < ySize; i++) {
+                TableRow row = new TableRow(AppUI.this);
+                for (int j = 0; j < xSize; j++) {
+                    Coordinate pos = new XYCoordinate(j, i);
+                    PosButton b = new PosButton(pos);
+                    buttons.add(b);
+                    b.setText(" ");
+                    b.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Coordinate pos = ((PosButton) view).pos;
@@ -94,76 +242,11 @@ public class AppUI extends AppCompatActivity implements UserInterface {
                                 }
                             }
                             game.checkResult();
-                            // #
                         }
                     });
                     row.addView(b);
                 }
 
-                layout.addView(row);
-            }
-            ScrollView2D sv = new ScrollView2D(this);
-            sv.setContent(layout);
-            setContentView(sv);
-        }
-        if (game.numberOfPlayers() == 1) {
-            game.setUserInterface(this);
-            class PosButton extends AppCompatButton {
-                private final Coordinate pos;
-
-                public PosButton(Coordinate pos) {
-                    super(AppUI.this);
-                    this.pos = pos;
-                }
-
-                @Override
-                public void onMeasure(int wSpec, int hSpec) {
-                    super.onMeasure(wSpec, hSpec);
-                    final int w = getMeasuredWidth();
-                    setMeasuredDimension(w, w);
-                }
-            }
-            final List<PosButton> buttons = new ArrayList<PosButton>();
-            AppUI.this.setTitle(game.getTitle());
-            TableLayout layout = new TableLayout(AppUI.this);
-            final int xSize = game.getHorizontalSize();
-            final int ySize = game.getVerticalSize();
-            for (int i = 0; i < ySize; i++) {
-                layout.setColumnStretchable(i, true);
-            }
-            for (int i = 0; i < ySize; i++) {
-                TableRow row = new TableRow(AppUI.this);
-                for (int j = 0; j < xSize; j++) {
-                    Coordinate pos = new XYCoordinate(j, i);
-                    PosButton b = new PosButton(pos);
-                    buttons.add(b);
-                    b.setText(" ");
-                    b.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Coordinate pos = ((PosButton) view).pos;
-                            if (game.isFree(pos)) {
-                                game.addMove(pos);
-                                for (PosButton button : buttons) {
-                                    button.setText(game.getContent(button.pos));
-                                }
-                            }
-                            game.checkResult(); // problem with checkFull because AI makes the board overfilled if draw. An if-conditional somewhere here should solve that.
-                            if (!game.isFull()) {
-                                Coordinate pos2 = new TTTAI(game.getBoard());
-                                if (game.isFree(pos2)) {
-                                    game.addMove2(pos2, 2);
-                                    for (PosButton button : buttons) {
-                                        button.setText(game.getContent(button.pos));
-                                    }
-                                }
-                            }
-                            game.checkResult(); // problem with checkFull because AI makes the board overfilled if draw. An if-conditional somewhere here should solve that.
-                        }
-
-                    });
-                    row.addView(b);
-                }
                 layout.addView(row);
             }
             ScrollView2D sv = new ScrollView2D(this);
