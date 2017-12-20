@@ -10,18 +10,31 @@ public class TTTGame implements Game {
 
     /** total number of players */
     public int numPlayers;
-    
+
     /** the board we play on */
     public TTTBoard board;
-    
+
     /** the gui for board games */
     public UserInterface ui;
-    
+
     /** constructor that gets the number of players */
     public TTTGame(int numPlayers) {
-        this.currentPlayer = 1;
-        this.numPlayers = numPlayers;
-        this.board = new TTTBoard(numPlayers);
+        if (numPlayers == 0){
+            this.currentPlayer = 1;
+            this.numPlayers = 0;
+            this.board = new TTTBoard(0);
+            addMove2(new XYCoordinate(1,1),2);
+        }
+        else if (numPlayers == 1){
+            this.currentPlayer = 1;
+            this.numPlayers = 1;
+            this.board = new TTTBoard(numPlayers);
+        }
+        else {
+            this.currentPlayer = 1;
+            this.numPlayers = numPlayers;
+            this.board = new TTTBoard(numPlayers);
+        }
     }
 
     @Override
@@ -41,7 +54,7 @@ public class TTTGame implements Game {
 
     @Override
     public void addMove2(Coordinate pos, int player) {
-        this.board.addMove(pos, player);
+        this.board.addMove2(pos, player);
     }
 
     @Override
@@ -81,14 +94,9 @@ public class TTTGame implements Game {
     }
 
     @Override
-    public void setUserInterface(UserInterface ui) {
-        this.ui = ui;
-        
-    }
-    
-    public String toString() {
-        return "Board before Player "+this.currentPlayer+" of "+this.numPlayers+"'s turn:\n"+this.board.toString();
-    }
+    public void setUserInterface(UserInterface ui) {this.ui = ui;}
+
+    public String toString() {return "Board before Player "+this.currentPlayer+" of "+this.numPlayers+"'s turn:\n"+this.board.toString();}
 
     @Override
     public int[][] getBoard(){

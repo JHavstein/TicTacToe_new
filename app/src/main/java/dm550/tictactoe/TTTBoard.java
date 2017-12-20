@@ -1,21 +1,11 @@
 package dm550.tictactoe;
 
-/** represents a tic tac toe board of a given size */
-public class TTTBoard {
 
-    /** 2-dimensional array representing the board
-     * coordinates are counted from top-left (0,0) to bottom-right (size-1, size-1)
-     * board[x][y] == 0   signifies free at position (x,y)
-     * board[x][y] == i   for i > 0 signifies that Player i made a move on (x,y)
-     */
+public class TTTBoard {
     private int[][] board;
 
-    /** size of the (quadratic) board */
     private int size;
 
-    /** constructor for creating a copy of the board
-     * not needed in Part 1 - can be viewed as an example
-     */
     public TTTBoard(TTTBoard original) {
         this.size = original.size;
         for (int x = 0; x < this.size; x++) {
@@ -25,40 +15,43 @@ public class TTTBoard {
         }
     }
 
-    /** constructor for creating an empty board for a given number of players */
     public TTTBoard(int numPlayers) {
-        this.size =  (numPlayers == 1) ? 3 : numPlayers+1; //
-        this.board = new int[this.getSize()][this.getSize()];
+        if (numPlayers == 0){
+            this.size = 3;
+            this.board = new int[this.getSize()][this.getSize()];
+        }
+        else if (numPlayers == 1){
+            this.size = 3;
+            this.board = new int[this.getSize()][this.getSize()];
+        }
+        else {
+            this.size = numPlayers + 1;
+            this.board = new int[this.getSize()][this.getSize()];
+        }
     }
 
-    /** checks whether the board is free at the given position */
     public boolean isFree(Coordinate c) {
-        //return this.board[c.getX()][c.getY()] == 0;
-        return getPlayer(c) == 0;
+        return this.board[c.getX()][c.getY()] == 0;
         //this is added
     }
 
-    /** returns the players that made a move on (x,y) or 0 if the position is free */
     public int getPlayer(Coordinate c) {
         return this.board[c.getX()][c.getY()];
     }
-    //this is added
 
-    /** record that a given player made a move at the given position
-     * checks that the given positions is on the board
-     * checks that the player number is valid
-     */
     public void addMove(Coordinate c, int player) {
-        if (c.checkBoundaries(this.size,this.size) && player > 0 /*&& player <= this.size-1*/) { // udkommenteret condition er redundant pga. checkBounderies
+        if (c.checkBoundaries(this.size,this.size) && player > 0 && player < this.size) {
             this.board[c.getX()][c.getY()] = player;
         }
         else {
             throw new IllegalArgumentException("Error");
         }
     }
-    //this is added
 
-    /** returns true if, and only if, there are no more free positions on the board */
+    public void addMove2(Coordinate c, int player){
+        this.board[c.getX()][c.getY()] = player;
+    }
+
     public boolean checkFull() {
         for (int x = 0; x < this.size; x++) {
             for (int y = 0; y < this.size; y++) {
@@ -67,12 +60,8 @@ public class TTTBoard {
             }
         }
         return true;
-        //this is added
     }
 
-    /** returns 0 if no player has won (yet)
-     * otherwise returns the number of the player that has three in a row
-     */
     public int checkWinning() {
         for (int x = 0; x < this.size; x++) {
             for (int y = 0; y < this.size; y++) {
@@ -94,7 +83,6 @@ public class TTTBoard {
         return 0;
     }
 
-    /** internal helper function checking one row, column, or diagonal */
     private int checkSequence(Coordinate start, int dx, int dy) {
         int x = start.getX();
         int y = start.getY();
@@ -109,16 +97,12 @@ public class TTTBoard {
 
         return 0;
     }
-    //this is added
 
-    /** getter for size of the board */
+
     public int getSize() {
         return this.size;
     }
 
-    /** pretty printing of the board
-     * usefule for debugging purposes
-     */
     public String toString() {
         String result = "";
         for (int y = 0; y < this.size; y++) {
@@ -133,5 +117,6 @@ public class TTTBoard {
     public int[][] getBoard(){
         return this.board;
     }
+
 
 }
