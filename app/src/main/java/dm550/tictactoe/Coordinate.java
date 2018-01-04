@@ -1,14 +1,10 @@
 package dm550.tictactoe;
 
 public interface Coordinate {
-    
-    public int getX();
-
-    public int getY();
-    
-    public boolean checkBoundaries(int xSize, int ySize);
-
-    public Coordinate shift(int dx, int dy);
+    int getX();
+    int getY();
+    boolean checkBoundaries(int xSize, int ySize);
+    Coordinate shift(int dx, int dy);
 
 }
 

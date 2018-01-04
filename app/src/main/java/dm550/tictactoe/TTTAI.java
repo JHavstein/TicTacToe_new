@@ -30,7 +30,6 @@ public class TTTAI extends XYCoordinate implements Coordinate {
                     this.AIboard[x][y] = 2;
                     if (checkWinning2() == 2){
                         this.AIboard[x][y] = 0;
-                        System.out.println("win");
                         return new XYCoordinate(x,y);
                     }
                     else {this.AIboard[x][y] = 0;}
@@ -47,7 +46,6 @@ public class TTTAI extends XYCoordinate implements Coordinate {
                     this.AIboard[x][y] = 1;
                     if (checkWinning2() == 1){
                         this.AIboard[x][y] = 0;
-                        System.out.println("block");
                         return new XYCoordinate(x,y);
                     }
                     else {this.AIboard[x][y] = 0;}
@@ -60,61 +58,49 @@ public class TTTAI extends XYCoordinate implements Coordinate {
     public Coordinate fork() {
         if (this.AIboard[0][0] == 2 && this.AIboard[0][2] == 2){
             if(this.AIboard[2][0] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(2,2);
             }
         }
         else if (this.AIboard[0][0] == 2 && this.AIboard[2][0] == 2){
             if(this.AIboard[0][2] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(0,2);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(2,2);
             }
         }
         else if (this.AIboard[0][0] == 2 && this.AIboard[2][2] == 2){
             if(this.AIboard[2][0] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[0][2] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(0,2);
             }
         }
         else if (this.AIboard[2][2] == 2 && this.AIboard[0][2] == 2){
             if(this.AIboard[2][0] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[0][0] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(0,0);
             }
         }
         else if (this.AIboard[2][2] == 2 && this.AIboard[2][0] == 2){
             if(this.AIboard[0][2] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(0,2);
             }
             else if(this.AIboard[0][0] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(0,0);
             }
         }
         else if (this.AIboard[0][2] == 2 && this.AIboard[2][0] == 2){
             if(this.AIboard[0][0] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(0,0);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("fork");
                 return new XYCoordinate(2,2);
             }
         }
@@ -124,109 +110,85 @@ public class TTTAI extends XYCoordinate implements Coordinate {
     public Coordinate blockFork() {
         if (this.AIboard[0][0] == 1 && this.AIboard[0][2] == 1){
             if (this.AIboard[1][0] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 0);
             }
             else if (this.AIboard[0][1] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(0, 1);
             }
             else if (this.AIboard[2][1] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(2, 1);
             }
             else if (this.AIboard[1][2] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 2);
             }
         }
         else if (this.AIboard[0][0] == 1 && this.AIboard[2][0] == 1){
             if (this.AIboard[1][0] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 0);
             }
             else if (this.AIboard[0][1] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(0, 1);
             }
             else if (this.AIboard[2][1] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(2, 1);
             }
             else if (this.AIboard[1][2] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 2);
             }
         }
         else if (this.AIboard[0][0] == 1 && this.AIboard[2][2] == 1){
             if (this.AIboard[1][0] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 0);
             }
             else if (this.AIboard[0][1] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(0, 1);
             }
             else if (this.AIboard[2][1] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(2, 1);
             }
             else if (this.AIboard[1][2] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 2);
             }
         }
         else if (this.AIboard[2][2] == 1 && this.AIboard[0][2] == 1){
             if (this.AIboard[1][0] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 0);
             }
             else if (this.AIboard[0][1] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(0, 1);
             }
             else if (this.AIboard[2][1] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(2, 1);
             }
             else if (this.AIboard[1][2] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 2);
             }
         }
         else if (this.AIboard[2][2] == 1 && this.AIboard[2][0] == 1){
             if (this.AIboard[1][0] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 0);
             }
             else if (this.AIboard[0][1] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(0, 1);
             }
             else if (this.AIboard[2][1] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(2, 1);
             }
             else if (this.AIboard[1][2] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 2);
             }
         }
         else if (this.AIboard[0][2] == 1 && this.AIboard[2][0] == 1){
             if (this.AIboard[1][0] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 0);
             }
             else if (this.AIboard[0][1] == 0) {
-                System.out.println("blockfork");
                 return new XYCoordinate(0, 1);
             }
             else if (this.AIboard[2][1] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(2, 1);
             }
             else if (this.AIboard[1][2] == 0){
-                System.out.println("blockfork");
                 return new XYCoordinate(1, 2);
             }
         }
@@ -235,7 +197,6 @@ public class TTTAI extends XYCoordinate implements Coordinate {
 
     public Coordinate center (){
         if (this.AIboard[1][1] == 0){
-            System.out.println("center");
             return new XYCoordinate(1, 1);
         }
         return oppositeCorner();
@@ -243,19 +204,15 @@ public class TTTAI extends XYCoordinate implements Coordinate {
 
     public Coordinate oppositeCorner(){
         if (this.AIboard[0][0] == 1 && this.AIboard[2][2] == 0){
-            System.out.println("oppositecorner");
             return new XYCoordinate(2, 2);
         }
         if (this.AIboard[2][2] == 1 && this.AIboard[0][0] == 0){
-            System.out.println("oppositecorner");
             return new XYCoordinate(0, 0);
         }
         if (this.AIboard[2][0] == 1 && this.AIboard[0][2] == 0){
-            System.out.println("oppositecorner");
             return new XYCoordinate(0, 2);
         }
         if (this.AIboard[0][2] == 1 && this.AIboard[2][0] == 0){
-            System.out.println("oppositecorner");
             return new XYCoordinate(2, 0);
         }
         return corner();
@@ -263,19 +220,15 @@ public class TTTAI extends XYCoordinate implements Coordinate {
 
     public Coordinate corner(){
         if (this.AIboard[0][0] == 0){
-            System.out.println("corner");
             return new XYCoordinate(0, 0);
         }
         else if (this.AIboard[0][2] == 0) {
-            System.out.println("corner");
             return new XYCoordinate(0, 2);
         }
         else if (this.AIboard[2][0] == 0){
-            System.out.println("corner");
             return new XYCoordinate(2, 0);
         }
         else if (this.AIboard[2][2] == 0){
-            System.out.println("corner");
             return new XYCoordinate(2, 2);
         }
         return side();
@@ -283,18 +236,14 @@ public class TTTAI extends XYCoordinate implements Coordinate {
 
     public Coordinate side(){
         if (this.AIboard[1][0] == 0){
-            System.out.println("side");
             return new XYCoordinate(1, 0);
         }
         else if (this.AIboard[0][1] == 0) {
-            System.out.println("side");
             return new XYCoordinate(0, 1);
         }
         else if (this.AIboard[2][1] == 0){
-            System.out.println("side");
             return new XYCoordinate(2, 1);
         }
-        System.out.println("side");
         return new XYCoordinate(1, 2);
     }
 

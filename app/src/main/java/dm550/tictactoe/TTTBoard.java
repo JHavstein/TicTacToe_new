@@ -32,7 +32,6 @@ public class TTTBoard {
 
     public boolean isFree(Coordinate c) {
         return this.board[c.getX()][c.getY()] == 0;
-        //this is added
     }
 
     public int getPlayer(Coordinate c) {
