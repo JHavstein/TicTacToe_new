@@ -98,7 +98,7 @@ public class AppUI extends AppCompatActivity implements UserInterface {
                 TableRow row = new TableRow(AppUI.this);
                 for (int j = 0; j < xSize; j++) {
                     Coordinate pos = new XYCoordinate(j, i);
-                    if (j == 1 && i == 1) {
+                    if (j == 0 && i == 0) {
                         PosButton s = new PosButton(pos);
                         buttons.add(s);
                         s.setText("2");

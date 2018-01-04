@@ -1,29 +1,21 @@
 package dm550.tictactoe;
 
-/** main class creating a board and the GUI
- * defines the game play
- */
 public class TTTGame implements Game {
 
-    /** currently active player */
     public int currentPlayer;
 
-    /** total number of players */
     public int numPlayers;
 
-    /** the board we play on */
     public TTTBoard board;
 
-    /** the gui for board games */
     public UserInterface ui;
 
-    /** constructor that gets the number of players */
     public TTTGame(int numPlayers) {
         if (numPlayers == 0){
             this.currentPlayer = 1;
             this.numPlayers = 0;
             this.board = new TTTBoard(0);
-            addMove2(new XYCoordinate(1,1),2);
+            addMove2(new XYCoordinate(0,0),2);
         }
         else if (numPlayers == 1){
             this.currentPlayer = 1;
@@ -39,6 +31,9 @@ public class TTTGame implements Game {
 
     @Override
     public String getTitle() {
+        if (this.numPlayers == 0 || this.numPlayers == 1) {
+            return "Tic Tac Toe with AI";
+        }
         return this.numPlayers+"-way Tic Tac Toe";
     }
 

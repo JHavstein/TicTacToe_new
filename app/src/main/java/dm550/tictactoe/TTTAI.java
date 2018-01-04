@@ -10,201 +10,225 @@ public class TTTAI extends XYCoordinate implements Coordinate {
 
     @Override
     public int getX() {
-        Coordinate c = AIMove(2, 1);
+        Coordinate c = AIMove();
         return c.getX();}
 
     @Override
     public int getY() {
-        Coordinate c = AIMove(2,1);
+        Coordinate c = AIMove();
         return c.getY();
     }
 
-    public Coordinate AIMove(int AI, int player){
-        return AIWin(AI, player);
+    public Coordinate AIMove(){
+        return win();
     }
 
-    public Coordinate AIWin(int AI, int player){
+    public Coordinate win(){
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 if (this.AIboard[x][y] == 0) {
-                    this.AIboard[x][y] = AI;
-                    if (checkWinning2() == AI){
+                    this.AIboard[x][y] = 2;
+                    if (checkWinning2() == 2){
                         this.AIboard[x][y] = 0;
-                        System.out.println("AIWin");
                         return new XYCoordinate(x,y);
                     }
                     else {this.AIboard[x][y] = 0;}
                 }
             }
         }
-        return oppositeWin(AI, player);
+        return block();
     }
 
-    public Coordinate oppositeWin(int AI, int player){
+    public Coordinate block(){
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 if (this.AIboard[x][y] == 0) {
-                    this.AIboard[x][y] = player;
-                    if (checkWinning2() == player){
+                    this.AIboard[x][y] = 1;
+                    if (checkWinning2() == 1){
                         this.AIboard[x][y] = 0;
-                        System.out.println("oppositeWin");
                         return new XYCoordinate(x,y);
                     }
                     else {this.AIboard[x][y] = 0;}
                 }
             }
         }
-        return AIFork(AI, player);
+        return fork();
     }
 
-    public Coordinate AIFork(int AI, int player) {
-        if (this.AIboard[0][0] == AI && this.AIboard[0][2] == AI){
+    public Coordinate fork() {
+        if (this.AIboard[0][0] == 2 && this.AIboard[0][2] == 2){
             if(this.AIboard[2][0] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(2,2);
             }
         }
-        else if (this.AIboard[0][0] == AI && this.AIboard[2][0] == AI){
+        else if (this.AIboard[0][0] == 2 && this.AIboard[2][0] == 2){
             if(this.AIboard[0][2] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(0,2);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(2,2);
             }
         }
-        else if (this.AIboard[0][0] == AI && this.AIboard[2][2] == AI){
+        else if (this.AIboard[0][0] == 2 && this.AIboard[2][2] == 2){
             if(this.AIboard[2][0] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[0][2] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(0,2);
             }
         }
-        else if (this.AIboard[2][2] == AI && this.AIboard[0][2] == AI){
+        else if (this.AIboard[2][2] == 2 && this.AIboard[0][2] == 2){
             if(this.AIboard[2][0] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[0][0] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(0,0);
             }
         }
-        else if (this.AIboard[2][2] == AI && this.AIboard[2][0] == AI){
+        else if (this.AIboard[2][2] == 2 && this.AIboard[2][0] == 2){
             if(this.AIboard[0][2] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(0,2);
             }
             else if(this.AIboard[0][0] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(0,0);
             }
         }
-        else if (this.AIboard[0][2] == AI && this.AIboard[2][0] == AI){
+        else if (this.AIboard[0][2] == 2 && this.AIboard[2][0] == 2){
             if(this.AIboard[0][0] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(0,0);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("AIFork");
                 return new XYCoordinate(2,2);
             }
         }
-        return oppositeFork(AI, player);
+        return blockFork();
     }
 
-    public Coordinate oppositeFork(int AI, int player) {
-        if (this.AIboard[0][0] == player && this.AIboard[0][2] == player){
+    public Coordinate blockFork() {
+        if (this.AIboard[0][0] == 1 && this.AIboard[0][2] == 1){
             if(this.AIboard[2][0] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(2,2);
             }
         }
-        else if (this.AIboard[0][0] == player && this.AIboard[2][0] == player){
+        else if (this.AIboard[0][0] == 1 && this.AIboard[2][0] == 1){
             if(this.AIboard[0][2] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(0,2);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(2,2);
             }
         }
-        else if (this.AIboard[0][0] == player && this.AIboard[2][2] == player){
+        else if (this.AIboard[0][0] == 1 && this.AIboard[2][2] == 1){
             if(this.AIboard[2][0] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[0][2] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(0,2);
             }
         }
-        else if (this.AIboard[2][2] == player && this.AIboard[0][2] == player){
+        else if (this.AIboard[2][2] == 1 && this.AIboard[0][2] == 1){
             if(this.AIboard[2][0] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(2,0);
             }
             else if(this.AIboard[0][0] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(0,0);
             }
         }
-        else if (this.AIboard[2][2] == player && this.AIboard[2][0] == player){
+        else if (this.AIboard[2][2] == 1 && this.AIboard[2][0] == 1){
             if(this.AIboard[0][2] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(0,2);
             }
             else if(this.AIboard[0][0] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(0,0);
             }
         }
-        else if (this.AIboard[0][2] == player && this.AIboard[2][0] == player){
+        else if (this.AIboard[0][2] == 1 && this.AIboard[2][0] == 1){
             if(this.AIboard[0][0] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(0,0);
             }
             else if(this.AIboard[2][2] == 0){
-                System.out.println("oppositeFork");
                 return new XYCoordinate(2,2);
             }
         }
-        return opposite();
+        return center();
     }
 
-    public Coordinate opposite (){
-        if (this.AIboard[0][0] != 0 || this.AIboard[0][2] != 0 || this.AIboard[2][0] != 0 || this.AIboard[2][2] != 0) {
-            if (this.AIboard[1][1] == 0){
-                System.out.println("opposite");
-                return new XYCoordinate(1, 1);
-            }
+    public Coordinate center (){
+        if (this.AIboard[1][1] == 0){
+            return new XYCoordinate(1, 1);
         }
-        return generateMove();
+        return oppositeCorner();
     }
 
-    public Coordinate generateMove(){
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                if (this.AIboard[x][y] == 0) {
-                    System.out.println("generateMove");
-                    return new XYCoordinate(x, y);
-                }
+    public Coordinate oppositeCorner(){
+        if (this.AIboard[0][0] == 1){
+            if (this.AIboard[2][0] == 0){
+                return new XYCoordinate(2, 0);
+            }
+            else if (this.AIboard[0][2] == 0){
+                return new XYCoordinate(0, 2);
             }
         }
-        throw new IllegalArgumentException("");
+        else if (this.AIboard[2][0] == 1){
+            if (this.AIboard[0][0] == 0){
+                return new XYCoordinate(0, 0);
+            }
+            else if (this.AIboard[2][2] == 0){
+                return new XYCoordinate(2, 2);
+            }
+        }
+        else if (this.AIboard[0][2] == 1){
+            if (this.AIboard[0][0] == 0){
+                return new XYCoordinate(0, 0);
+            }
+            else if (this.AIboard[2][2] == 0){
+                return new XYCoordinate(2, 2);
+            }
+        }
+        else if (this.AIboard[2][2] == 1){
+            if (this.AIboard[2][0] == 0){
+                return new XYCoordinate(2, 0);
+            }
+            else if (this.AIboard[0][2] == 0){
+                return new XYCoordinate(0, 2);
+            }
+        }
+        return corner();
+    }
+
+    public Coordinate corner(){
+        if (this.AIboard[0][0] == 0){
+            return new XYCoordinate(0, 0);
+        }
+        else if (this.AIboard[0][2] == 0) {
+            return new XYCoordinate(0, 2);
+        }
+        else if (this.AIboard[2][0] == 0){
+            return new XYCoordinate(2, 0);
+        }
+        else if (this.AIboard[2][2] == 0){
+            return new XYCoordinate(2, 2);
+        }
+        return side();
+    }
+
+    public Coordinate side(){
+        if (this.AIboard[1][0] == 0){
+            return new XYCoordinate(1, 0);
+        }
+        else if (this.AIboard[0][1] == 0) {
+            return new XYCoordinate(0, 1);
+        }
+        else if (this.AIboard[2][1] == 0){
+            return new XYCoordinate(2, 1);
+        }
+        return new XYCoordinate(1, 2);
     }
 
     public int checkWinning2() {
